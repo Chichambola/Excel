@@ -23,7 +23,6 @@ namespace ExelTest
             HashSet<string> necessaryColumns = ["g", "o", "p", "v"];
             int sheetIndexCopyTo = 2;
             excelHandler.Copy(necessaryColumns, sheetIndex,sheetIndexCopyTo);
-            excelHandler.Delete(sheetIndex);
 
             string columnToSortBy = "C";
             string startCell = "A1";
@@ -79,8 +78,6 @@ namespace ExelTest
             var initialWorksheet = _workbook.Worksheets.First();
 
             initialWorksheet.Row(_firstRowIndex).Delete();
-
-            Console.WriteLine(_workbook.Worksheets.Count);
         }
 
         public void Sort(string columnToSortBy, string startCell, int sheetIndex)
@@ -89,7 +86,7 @@ namespace ExelTest
 
             var rowsCount = _currentWorksheet.RowsUsed().Count();
 
-            var column = _currentWorksheet.LastColumnUsed();
+            var column = _currentWorksheet.LastColumnUsed()?.Cell(rowsCount).WorksheetColumn().ColumnLetter();
 
             var range = _currentWorksheet.Range($"{startCell}:{column}{rowsCount}");
 
